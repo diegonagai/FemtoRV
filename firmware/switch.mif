@@ -1,0 +1,31 @@
+-- Leitura das chaves e escrita no display de 7-segmentos (delay mostrado nos LEDS)
+
+DEPTH = 1536;           -- Tamanho da memória em palavras
+WIDTH = 32;             -- Tamanho da palavra em bits
+ADDRESS_RADIX = DEC;    -- Base numérica dos endereços
+DATA_RADIX = HEX;       -- Base numérica dos dados
+CONTENT                 -- Conteúdo da memória
+BEGIN
+
+ 0 : 00002137; --	lui x2 2	          li sp 0x1800
+ 1 : 80010113; --	addi x2 x2 -2048	  li sp 0x1800
+ 2 : 004001B7; --	lui x3 1024	          li gp 0x400000
+ 3 : 00018193; --	addi x3 x3 0	      li gp 0x400000
+ 4 : 07F00413; --	addi x8 x0 127	L0:   li s0, 127
+ 5 : 00000513; --	addi x10 x0 0	      li a0, 0
+ 6 : 00A1A223; --	sw x10 4(x3)	L1:   sw a0, 4, gp
+ 7 : 00000317; --	auipc x6 0	          call WAIT
+ 8 : 020300E7; --	jalr x1 x6 32	      call WAIT
+ 9 : 00150513; --	addi x10 x10 1	      addi a0, a0, 1
+10 : FE8518E3; --	bne x10 x8 -16	      bne a0, s0, L1
+11 : 0401A503; --	lw x10 64(x3)	      lw a0, 64, gp
+12 : 02A1A023; --	sw x10 32(x3)	      sw a0, 32, gp
+13 : FDDFF06F; --	jal x0 -36	          j L0
+14 : 00100073; --	ebreak	              ebreak
+15 : 00100293; --	addi x5 x0 1	WAIT: li t0, 1
+16 : 01229293; --	slli x5 x5 18	      slli t0, t0, 18
+17 : FFF28293; --	addi x5 x5 -1	WL0:  addi t0, t0, -1
+18 : FE029EE3; --	bne x5 x0 -4	      bnez t0, WL0
+19 : 00008067; --	jalr x0 x1 0	      ret
+
+END;

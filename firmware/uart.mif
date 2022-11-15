@@ -1,0 +1,49 @@
+-- Contagem até 1023 nos LEDS e impressão do alfabeto na UART
+
+DEPTH = 1536;           -- Tamanho da memória em palavras
+WIDTH = 32;             -- Tamanho da palavra em bits
+ADDRESS_RADIX = DEC;    -- Base numérica dos endereços
+DATA_RADIX = HEX;       -- Base numérica dos dados
+CONTENT                 -- Conteúdo da memória
+BEGIN
+                        -- Programa
+		 0 : 00002137;	-- lui x2 2	              li sp 0x1800
+		 1 : 80010113;	-- addi x2 x2 -2048	      li sp 0x1800
+		 2 : 004001B7;	-- lui x3 1024	          li gp 0x400000
+		 3 : 00018193;	-- addi x3 x3 0	          li gp 0x400000
+		 4 : 3FF00413;	-- addi x8 x0 1023	  L0: li s0, 1023
+		 5 : 00000513;	-- addi x10 x0 0	      li a0, 0
+		 6 : 00A1A223;	-- sw x10 4(x3)	      L1: sw a0, 4, gp
+		 7 : 00000317;	-- auipc x6 0	          call WAIT
+		 8 : 050300E7;	-- jalr x1 x6 80	      call WAIT
+		 9 : 00150513;	-- addi x10 x10 1	      addi a0, a0, 1
+		10 : FE8518E3;	-- bne x10 x8 -16	      bne a0, s0, L1
+		11 : 01A00413;	-- addi x8 x0 26	      li s0, 26
+		12 : 06100513;	-- addi x10 x0 97	      li a0, 97
+		13 : 00000493;	-- addi x9 x0 0	          li s1, 0
+		14 : 00000317;	-- auipc x6 0	      L2: call PUT
+		15 : 048300E7;	-- jalr x1 x6 72	  L2: call PUT
+		16 : 00150513;	-- addi x10 x10 1	      addi a0, a0, 1
+		17 : 00148493;	-- addi x9 x9 1	          addi s1, s1, 1
+		18 : FE8498E3;	-- bne x9 x8 -16	      bne s1, s0, L2
+		19 : 00D00513;	-- addi x10 x0 13	      li a0, 13
+		20 : 00000317;	-- auipc x6 0	          call PUT
+		21 : 030300E7;	-- jalr x1 x6 48	      call PUT
+		22 : 00A00513;	-- addi x10 x0 10	      li a0, 10
+		23 : 00000317;	-- auipc x6 0	          call PUT
+		24 : 024300E7;	-- jalr x1 x6 36	      call PUT
+		25 : FADFF06F;	-- jal x0 -84	          j L0
+		26 : 00100073;	-- ebreak	              ebreak
+		27 : 00100293;	-- addi x5 x0 1	    WAIT: li t0, 1
+		28 : 01229293;	-- slli x5 x5 18	      slli t0, t0, 18
+		29 : FFF28293;	-- addi x5 x5 -1	 WL0: addi t0, t0, -1
+		30 : FE029EE3;	-- bne x5 x0 -4	          bnez t0, WL0
+		31 : 00008067;	-- jalr x0 x1 0	          ret
+		32 : 00A1A423;	-- sw x10 8(x3)	     PUT: sw a0, 8, gp
+		33 : 20000293;	-- addi x5 x0 512  	      li t0, 512
+		34 : 0101A303;	-- lw x6 16(x3)	     PL0: lw t1, 16, gp
+		35 : 00537333;	-- and x6 x6 x5	          and t1, t1, t0
+		36 : FE031CE3;	-- bne x6 x0 -8	          bnez t1, PL0
+		37 : 00008067;	-- jalr x0 x1 0	          ret
+
+END;
