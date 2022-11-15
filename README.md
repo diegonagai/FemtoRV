@@ -13,3 +13,5 @@ Mesmo com diferentes placas suportadas, não há um port para placas com FPGAs *
  Como ponto de partida utilizei o tutorial [**From Blinker to RISC-V**](https://github.com/BrunoLevy/learn-fpga/tree/master/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV) do Bruno Levy.
  
  Este repositório contém o resultado do processo de portabilidade, customização e implementação do FemtoRV e está organizado da seguinte forma:
+
+A pasta **modules** contém todos os blocos do FemtoRV e um testbench simples para simulação e a pasta **firmware** contém dois programas de teste.
