@@ -1,5 +1,7 @@
 # FemtoRV
 
+![alt text](https://github.com/diegonagai/FemtoRV/blob/master/diagrama_geral.png)
+
 O FemtoRV é um processador minimalista de 32-bit com arquitetura RISC-V desenvolvido por [Bruno Levy](https://github.com/BrunoLevy).
 
 Inicialmente o FemtoRV foi projetado para rodar em uma [iCEstick](https://www.latticesemi.com/icestick), uma placa com uma FPGA de apenas 1280 elementos lógicos! Com o passar do tempo novas placas também passaram a ser suportadas, como a [iCEBreaker](https://docs.icebreaker-fpga.org/hardware/icebreaker/), [ARTY](https://digilent.com/shop/arty-a7-artix-7-fpga-development-board/), [ULX3S](https://radiona.org/ulx3s/) entre outras.
